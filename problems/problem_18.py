@@ -19,13 +19,10 @@
 # ABd1234@1
 
 
-
 def is_length(x):
     if 6 <= len(x) <= 12:
         return True
-    else:
-        return False
-
+    return False
 
 
 def is_upper(x):
@@ -35,14 +32,11 @@ def is_upper(x):
     return False
 
 
-
 def is_lower(x):
     for i in x:
         if i.islower():
             return True
     return False
-
-
 
 
 def is_num(x):
@@ -52,7 +46,6 @@ def is_num(x):
     return False
 
 
-
 def is_special_char(x):
     for i in x:
         if i == '$' or i == '#' or i == '@':
@@ -60,21 +53,24 @@ def is_special_char(x):
     return False
 
 
-
-password = input().split(',')
-valid_password = []
-
-for i in password:
-    if is_num(i) and is_lower(i) and is_upper(i) and is_length(i) and is_special_char(i):
-        valid_password.append(i)
-
-    # print(f'{i}, Upper - {is_upper(i)}')
-    # print(f'{i}, Lower - {is_lower(i)}')
-    # print(f' {i}, Length {is_length(i)}')
-    # print(f'{i}, is number - {is_num(i)}')
-    # print(f'{i}, special _char {is_special_char(i)}')
-print(valid_password)
+predicates = [is_num, is_upper, is_lower, is_length, is_special_char]
 
 
+def validate_password(password):
+    for predicate in predicates:
+
+        if not predicate(password):
+            return False
+    return True
 
 
+def find_valid_password(passwords):
+    valid_passwords = []
+    for password in passwords:
+        if validate_password(password):
+            valid_passwords.append(password)
+    return valid_passwords
+
+
+# print(find_valid_password(['ABd1234@1','a F1#','2w3E*','2We3345']))
+print(find_valid_password(input().split(',')))
